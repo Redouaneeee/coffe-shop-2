@@ -149,10 +149,6 @@
     </div>
 </section>
 
-
-
-
-
 <!-- ===== BREW GUIDES SECTION ===== -->
     <!-- Step-by-step brewing instructions -->
     <section class="brew-guides" id="brew-guides">
@@ -219,8 +215,7 @@
             </div>
         </div>
     </section>
-     <!-- ===== TESTIMONIALS SECTION ===== -->
-<!-- ===== TESTIMONIALS SECTION ===== -->
+ <!-- ===== TESTIMONIALS SECTION ===== -->
 <section class="testimonials" style="padding: 5rem 0; background: #F9F5EB;">
     <div class="container">
         <div class="section-title">
@@ -257,24 +252,7 @@
         
         <!-- Reviews Container -->
         <div class="reviews" id="reviewsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-            <!-- Existing reviews -->
-            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
-                <p style="font-style: italic; margin-bottom: 1.5rem;">"Best coffee in town! The Ethiopian Yirgacheffe is absolutely amazing. I start every day with a cup."</p>
-                <span style="font-weight: bold; color: #5D4037;">- Sarah M.</span>
-            </div>
-            
-            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
-                <p style="font-style: italic; margin-bottom: 1.5rem;">"The atmosphere is perfect for working, and the Colombian Supremo keeps me going through my meetings."</p>
-                <span style="font-weight: bold; color: #5D4037;">- James K.</span>
-            </div>
-            
-            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
-                <p style="font-style: italic; margin-bottom: 1.5rem;">"I've tried coffee from all over the city, but Artisan Brew's Sumatra Mandheling is in a league of its own."</p>
-                <span style="font-weight: bold; color: #5D4037;">- Maria L.</span>
-            </div>
+            <!-- Reviews will be loaded dynamically from localStorage -->
         </div>
     </div>
 </section>
@@ -293,9 +271,79 @@
 .star.active {
     color: #D7A86E;
 }
+
+/* Notification style */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #5D4037;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Delete button style */
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+.review-card {
+    position: relative;
+}
 </style>
 
 <script>
+// Initialize with default reviews if none exist
+const defaultReviews = [
+    {
+        name: "Sarah M.",
+        text: "Best coffee in town! The Ethiopian Yirgacheffe is absolutely amazing. I start every day with a cup.",
+        rating: 5,
+        date: "2023-10-15"
+    },
+    {
+        name: "James K.",
+        text: "The atmosphere is perfect for working, and the Colombian Supremo keeps me going through my meetings.",
+        rating: 5,
+        date: "2023-10-10"
+    },
+    {
+        name: "Maria L.",
+        text: "I've tried coffee from all over the city, but Artisan Brew's Sumatra Mandheling is in a league of its own.",
+        rating: 5,
+        date: "2023-10-05"
+    }
+];
+
 // Star rating functionality
 let currentRating = 0;
 
@@ -316,6 +364,96 @@ function setRating(rating) {
     });
 }
 
+// Load reviews from localStorage
+function loadReviews() {
+    let reviews = JSON.parse(localStorage.getItem('coffeeShopReviews')) || defaultReviews;
+    return reviews;
+}
+
+// Save reviews to localStorage
+function saveReviews(reviews) {
+    localStorage.setItem('coffeeShopReviews', JSON.stringify(reviews));
+}
+
+// Display reviews in the container
+function displayReviews() {
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    const reviews = loadReviews();
+    
+    reviewsContainer.innerHTML = '';
+    
+    reviews.forEach((review, index) => {
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'review-card';
+        reviewCard.style = 'background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;';
+        
+        // Create stars based on rating
+        let starsHtml = '';
+        for (let i = 0; i < 5; i++) {
+            starsHtml += i < review.rating ? '★' : '☆';
+        }
+        
+        reviewCard.innerHTML = `
+            <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">${starsHtml}</div>
+            <p style="font-style: italic; margin-bottom: 1.5rem;">"${review.text}"</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold; color: #5D4037;">- ${review.name}</span>
+                <span style="font-size: 0.8rem; color: #8B6B61;">${review.date}</span>
+            </div>
+            <button class="delete-btn" onclick="deleteReview(${index})">×</button>
+        `;
+        
+        reviewsContainer.appendChild(reviewCard);
+    });
+}
+
+// Add a new review
+function addReview(name, text, rating) {
+    const reviews = loadReviews();
+    const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    
+    reviews.unshift({
+        name,
+        text,
+        rating,
+        date: currentDate
+    });
+    
+    saveReviews(reviews);
+    displayReviews();
+}
+
+// Delete a review
+function deleteReview(index) {
+    const reviews = loadReviews();
+    reviews.splice(index, 1);
+    saveReviews(reviews);
+    displayReviews();
+    showNotification('Review deleted successfully');
+}
+
+// Show notification
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Remove after delay
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
 // Testimonial form submission
 document.getElementById('testimonialForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -325,47 +463,29 @@ document.getElementById('testimonialForm').addEventListener('submit', function(e
     const rating = currentRating;
     
     if (rating === 0) {
-        alert('Please select a rating');
+        showNotification('Please select a rating');
         return;
     }
     
-    // Create new review element
-    const newReview = document.createElement('div');
-    newReview.className = 'review-card';
-    newReview.style = 'background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);';
-    
-    // Create stars based on rating
-    let starsHtml = '';
-    for (let i = 0; i < 5; i++) {
-        starsHtml += i < rating ? '★' : '☆';
-    }
-    
-    newReview.innerHTML = `
-        <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">${starsHtml}</div>
-        <p style="font-style: italic; margin-bottom: 1.5rem;">"${text}"</p>
-        <span style="font-weight: bold; color: #5D4037;">- ${name}</span>
-    `;
-    
-    // Add to beginning of reviews container
-    document.getElementById('reviewsContainer').prepend(newReview);
+    addReview(name, text, rating);
     
     // Reset form
     document.getElementById('testimonialForm').reset();
     setRating(0);
     
-    // Show confirmation
-    alert('Thank you for your review!');
-    
-    // In a real application, you would save this to a database
-    // For now, we're just adding it to the page
+    showNotification('Thank you for your review!');
 });
 
 // Initialize star ratings
 document.querySelectorAll('.star').forEach((star, index) => {
     star.addEventListener('click', () => setRating(index + 1));
 });
+
+// Load reviews when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    displayReviews();
+});
 </script>
-   
 
 <!-- ===== SUBSCRIPTION SECTION ===== -->
     <!-- Newsletter signup and subscription options -->
@@ -420,5 +540,3 @@ document.querySelectorAll('.star').forEach((star, index) => {
 
 </body>
 </html>
-
-
