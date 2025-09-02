@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redo Coffee | Premium Coffee Experience</title>
+    <title>Redo Coffee | Premium Coffee Experience</title>  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -148,7 +148,196 @@
         </div>
     </div>
 </section>
-    <!-- ===== BREW GUIDES SECTION ===== -->
+    <!-- ===== GALLERY SECTION ===== -->
+  <!-- ===== ANIMATED GALLERY SECTION ===== -->
+<section class="gallery" style="padding: 5rem 0; background: #F9F5EB; overflow: hidden;">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Coffee Space</h2>
+            <p>Experience our atmosphere through these moments</p>
+        </div>
+        
+        <!-- Gallery Navigation -->
+        <div class="gallery-filters" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+            <button class="filter-btn active" onclick="filterGallery('all')" style="background: #D7A86E; color: #3A2A1D; border: none; padding: 0.5rem 1.5rem; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;">All</button>
+            <button class="filter-btn" onclick="filterGallery('interior')" style="background: #F9F5EB; color: #5D4037; border: 1px solid #D7A86E; padding: 0.5rem 1.5rem; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;">Interior</button>
+            <button class="filter-btn" onclick="filterGallery('coffee')" style="background: #F9F5EB; color: #5D4037; border: 1px solid #D7A86E; padding: 0.5rem 1.5rem; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;">Coffee Art</button>
+            <button class="filter-btn" onclick="filterGallery('beans')" style="background: #F9F5EB; color: #5D4037; border: 1px solid #D7A86E; padding: 0.5rem 1.5rem; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;">Beans</button>
+        </div>
+        
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem;">
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item" data-category="interior" style="position: relative; height: 280px; border-radius: 15px; overflow: hidden; cursor: pointer; transform: scale(0.9); opacity: 0; animation: fadeInScale 0.6s ease forwards;">
+                <div class="gallery-image" style="width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover; transition: all 0.5s ease;"></div>
+                <div class="gallery-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(58, 42, 29, 0.9)); padding: 2rem 1.5rem 1.5rem; color: white; transform: translateY(100%); transition: transform 0.5s ease;">
+                    <h3 style="margin-bottom: 0.5rem;">Cozy Interior</h3>
+                    <p>Our warm and welcoming space</p>
+                </div>
+                <div class="gallery-expand" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: transform 0.3s ease;">
+                    <i class="fas fa-expand" style="color: #3A2A1D;"></i>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item" data-category="coffee" style="position: relative; height: 280px; border-radius: 15px; overflow: hidden; cursor: pointer; transform: scale(0.9); opacity: 0; animation: fadeInScale 0.6s ease forwards 0.2s;">
+                <div class="gallery-image" style="width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover; transition: all 0.5s ease;"></div>
+                <div class="gallery-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(58, 42, 29, 0.9)); padding: 2rem 1.5rem 1.5rem; color: white; transform: translateY(100%); transition: transform 0.5s ease;">
+                    <h3 style="margin-bottom: 0.5rem;">Latte Art</h3>
+                    <p>Beautiful designs in every cup</p>
+                </div>
+                <div class="gallery-expand" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: transform 0.3s ease;">
+                    <i class="fas fa-expand" style="color: #3A2A1D;"></i>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item" data-category="beans" style="position: relative; height: 280px; border-radius: 15px; overflow: hidden; cursor: pointer; transform: scale(0.9); opacity: 0; animation: fadeInScale 0.6s ease forwards 0.4s;">
+                <div class="gallery-image" style="width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover; transition: all 0.5s ease;"></div>
+                <div class="gallery-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(58, 42, 29, 0.9)); padding: 2rem 1.5rem 1.5rem; color: white; transform: translateY(100%); transition: transform 0.5s ease;">
+                    <h3 style="margin-bottom: 0.5rem;">Premium Beans</h3>
+                    <p>Freshly roasted to perfection</p>
+                </div>
+                <div class="gallery-expand" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: transform 0.3s ease;">
+                    <i class="fas fa-expand" style="color: #3A2A1D;"></i>
+                </div>
+            </div>
+            
+            <!-- Gallery Item 4 -->
+            <div class="gallery-item" data-category="interior" style="position: relative; height: 280px; border-radius: 15px; overflow: hidden; cursor: pointer; transform: scale(0.9); opacity: 0; animation: fadeInScale 0.6s ease forwards 0.6s;">
+                <div class="gallery-image" style="width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover; transition: all 0.5s ease;"></div>
+                <div class="gallery-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(58, 42, 29, 0.9)); padding: 2rem 1.5rem 1.5rem; color: white; transform: translateY(100%); transition: transform 0.5s ease;">
+                    <h3 style="margin-bottom: 0.5rem;">Brewing Station</h3>
+                    <p>Where the magic happens</p>
+                </div>
+                <div class="gallery-expand" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: scale(0); transition: transform 0.3s ease;">
+                    <i class="fas fa-expand" style="color: #3A2A1D;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="galleryLightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;">
+    <div class="lightbox-content" style="position: relative; max-width: 90%; max-height: 90%;">
+        <img id="lightboxImage" src="" style="max-width: 100%; max-height: 80vh; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <button onclick="closeLightbox()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">&times;</button>
+        <div id="lightboxCaption" style="color: white; text-align: center; margin-top: 1rem;"></div>
+    </div>
+</div>
+
+<style>
+/* Animations */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Gallery Item Hover Effects */
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-item:hover .gallery-expand {
+    transform: scale(1);
+}
+
+/* Filter button active state */
+.filter-btn.active {
+    background: #D7A86E !important;
+    color: #3A2A1D !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(215, 168, 110, 0.3);
+}
+</style>
+
+<script>
+// Gallery filtering
+function filterGallery(category) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = '#F9F5EB';
+        btn.style.color = '#5D4037';
+    });
+    
+    event.target.classList.add('active');
+    event.target.style.background = '#D7A86E';
+    event.target.style.color = '#3A2A1D';
+    
+    // Filter items
+    const items = document.querySelectorAll('.gallery-item');
+    items.forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+            // Add animation
+            item.style.animation = 'pulse 0.6s ease';
+            setTimeout(() => {
+                item.style.animation = '';
+            }, 600);
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Lightbox functionality
+function openLightbox(imageSrc, caption) {
+    document.getElementById('lightboxImage').src = imageSrc;
+    document.getElementById('lightboxCaption').textContent = caption;
+    document.getElementById('galleryLightbox').style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+}
+
+function closeLightbox() {
+    document.getElementById('galleryLightbox').style.display = 'none';
+    document.body.style.overflow = ''; // Re-enable scrolling
+}
+
+// Add click events to gallery items
+document.querySelectorAll('.gallery-item').forEach(item => {
+    const image = item.querySelector('.gallery-image');
+    const caption = item.querySelector('h3').textContent;
+    const imageUrl = image.style.backgroundImage.replace('linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), ', '').replace(/url\(["']?(.*?)["']?\)/, '$1');
+    
+    item.addEventListener('click', () => {
+        openLightbox(imageUrl, caption);
+    });
+});
+
+// Close lightbox when clicking outside
+document.getElementById('galleryLightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+});
+
+// Close with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+
+
+
+
+<!-- ===== BREW GUIDES SECTION ===== -->
     <!-- Step-by-step brewing instructions -->
     <section class="brew-guides" id="brew-guides">
         <div class="container">
@@ -214,8 +403,155 @@
             </div>
         </div>
     </section>
+     <!-- ===== TESTIMONIALS SECTION ===== -->
+<!-- ===== TESTIMONIALS SECTION ===== -->
+<section class="testimonials" style="padding: 5rem 0; background: #F9F5EB;">
+    <div class="container">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+            <p>Share your experience with our coffee</p>
+        </div>
+        
+        <!-- Add Testimonial Form -->
+        <div class="add-testimonial" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 3rem;">
+            <h3 style="color: #5D4037; margin-bottom: 1.5rem;">Share Your Experience</h3>
+            <form id="testimonialForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Your Name</label>
+                    <input type="text" id="reviewerName" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Your Review</label>
+                    <textarea id="reviewText" required rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Rating</label>
+                    <div class="star-rating">
+                        <span class="star" onclick="setRating(1)">☆</span>
+                        <span class="star" onclick="setRating(2)">☆</span>
+                        <span class="star" onclick="setRating(3)">☆</span>
+                        <span class="star" onclick="setRating(4)">☆</span>
+                        <span class="star" onclick="setRating(5)">☆</span>
+                    </div>
+                    <input type="hidden" id="ratingValue" value="0">
+                </div>
+                <button type="submit" class="btn" style="background: #D7A86E; color: #3A2A1D; border: none; padding: 1rem 2rem; border-radius: 30px; font-weight: bold; cursor: pointer;">Submit Review</button>
+            </form>
+        </div>
+        
+        <!-- Reviews Container -->
+        <div class="reviews" id="reviewsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            <!-- Existing reviews -->
+            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
+                <p style="font-style: italic; margin-bottom: 1.5rem;">"Best coffee in town! The Ethiopian Yirgacheffe is absolutely amazing. I start every day with a cup."</p>
+                <span style="font-weight: bold; color: #5D4037;">- Sarah M.</span>
+            </div>
+            
+            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
+                <p style="font-style: italic; margin-bottom: 1.5rem;">"The atmosphere is perfect for working, and the Colombian Supremo keeps me going through my meetings."</p>
+                <span style="font-weight: bold; color: #5D4037;">- James K.</span>
+            </div>
+            
+            <div class="review-card" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">★★★★★</div>
+                <p style="font-style: italic; margin-bottom: 1.5rem;">"I've tried coffee from all over the city, but Artisan Brew's Sumatra Mandheling is in a league of its own."</p>
+                <span style="font-weight: bold; color: #5D4037;">- Maria L.</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <!-- ===== SUBSCRIPTION SECTION ===== -->
+<style>
+.star-rating {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.star {
+    color: #ddd;
+    transition: color 0.2s;
+    margin-right: 5px;
+}
+.star:hover,
+.star.active {
+    color: #D7A86E;
+}
+</style>
+
+<script>
+// Star rating functionality
+let currentRating = 0;
+
+function setRating(rating) {
+    currentRating = rating;
+    document.getElementById('ratingValue').value = rating;
+    
+    // Update star display
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.textContent = '★';
+            star.classList.add('active');
+        } else {
+            star.textContent = '☆';
+            star.classList.remove('active');
+        }
+    });
+}
+
+// Testimonial form submission
+document.getElementById('testimonialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('reviewerName').value;
+    const text = document.getElementById('reviewText').value;
+    const rating = currentRating;
+    
+    if (rating === 0) {
+        alert('Please select a rating');
+        return;
+    }
+    
+    // Create new review element
+    const newReview = document.createElement('div');
+    newReview.className = 'review-card';
+    newReview.style = 'background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);';
+    
+    // Create stars based on rating
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+        starsHtml += i < rating ? '★' : '☆';
+    }
+    
+    newReview.innerHTML = `
+        <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">${starsHtml}</div>
+        <p style="font-style: italic; margin-bottom: 1.5rem;">"${text}"</p>
+        <span style="font-weight: bold; color: #5D4037;">- ${name}</span>
+    `;
+    
+    // Add to beginning of reviews container
+    document.getElementById('reviewsContainer').prepend(newReview);
+    
+    // Reset form
+    document.getElementById('testimonialForm').reset();
+    setRating(0);
+    
+    // Show confirmation
+    alert('Thank you for your review!');
+    
+    // In a real application, you would save this to a database
+    // For now, we're just adding it to the page
+});
+
+// Initialize star ratings
+document.querySelectorAll('.star').forEach((star, index) => {
+    star.addEventListener('click', () => setRating(index + 1));
+});
+</script>
+   
+
+<!-- ===== SUBSCRIPTION SECTION ===== -->
     <!-- Newsletter signup and subscription options -->
     <section class="subscription" id="subscription">
         <div class="container">
@@ -227,14 +563,14 @@
             </div>
         </div>
     </section>
-
+     
     <!-- ===== FOOTER SECTION ===== -->
     <!-- Site footer with links and social media -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Artisan Brew</h3>
+                    <h3>Redo Coffee</h3>
                     <p>Crafting exceptional coffee experiences since 2010. Ethically sourced, expertly roasted, perfectly brewed.</p>
                 </div>
                 <div class="footer-section">
@@ -262,8 +598,10 @@
         </div>
     </footer>
   <script src="script.js"></script>
+   
+
+
+
 </body>
-
 </html>
-
 
