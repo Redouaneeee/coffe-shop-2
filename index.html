@@ -216,276 +216,388 @@
         </div>
     </section>
  <!-- ===== TESTIMONIALS SECTION ===== -->
-<section class="testimonials" style="padding: 5rem 0; background: #F9F5EB;">
-    <div class="container">
-        <div class="section-title">
-            <h2>What Our Customers Say</h2>
-            <p>Share your experience with our coffee</p>
-        </div>
-        
-        <!-- Add Testimonial Form -->
-        <div class="add-testimonial" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 3rem;">
-            <h3 style="color: #5D4037; margin-bottom: 1.5rem;">Share Your Experience</h3>
-            <form id="testimonialForm">
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Your Name</label>
-                    <input type="text" id="reviewerName" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Your Review</label>
-                    <textarea id="reviewText" required rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Rating</label>
-                    <div class="star-rating">
-                        <span class="star" onclick="setRating(1)">☆</span>
-                        <span class="star" onclick="setRating(2)">☆</span>
-                        <span class="star" onclick="setRating(3)">☆</span>
-                        <span class="star" onclick="setRating(4)">☆</span>
-                        <span class="star" onclick="setRating(5)">☆</span>
-                    </div>
-                    <input type="hidden" id="ratingValue" value="0">
-                </div>
-                <button type="submit" class="btn" style="background: #D7A86E; color: #3A2A1D; border: none; padding: 1rem 2rem; border-radius: 30px; font-weight: bold; cursor: pointer;">Submit Review</button>
-            </form>
-        </div>
-        
-        <!-- Reviews Container -->
-        <div class="reviews" id="reviewsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-            <!-- Reviews will be loaded dynamically from localStorage -->
-        </div>
-    </div>
-</section>
 
-<style>
-.star-rating {
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-.star {
-    color: #ddd;
-    transition: color 0.2s;
-    margin-right: 5px;
-}
-.star:hover,
-.star.active {
-    color: #D7A86E;
-}
-
-/* Notification style */
-.notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #5D4037;
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.notification.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Delete button style */
-.delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255,255,255,0.8);
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.delete-btn:hover {
-    background: #ff6b6b;
-    color: white;
-}
-
-.review-card {
-    position: relative;
-}
-</style>
-
-<script>
-// Initialize with default reviews if none exist
-const defaultReviews = [
-    {
-        name: "Sarah M.",
-        text: "Best coffee in town! The Ethiopian Yirgacheffe is absolutely amazing. I start every day with a cup.",
-        rating: 5,
-        date: "2023-10-15"
-    },
-    {
-        name: "James K.",
-        text: "The atmosphere is perfect for working, and the Colombian Supremo keeps me going through my meetings.",
-        rating: 5,
-        date: "2023-10-10"
-    },
-    {
-        name: "Maria L.",
-        text: "I've tried coffee from all over the city, but Artisan Brew's Sumatra Mandheling is in a league of its own.",
-        rating: 5,
-        date: "2023-10-05"
-    }
-];
-
-// Star rating functionality
-let currentRating = 0;
-
-function setRating(rating) {
-    currentRating = rating;
-    document.getElementById('ratingValue').value = rating;
-    
-    // Update star display
-    const stars = document.querySelectorAll('.star');
-    stars.forEach((star, index) => {
-        if (index < rating) {
-            star.textContent = '★';
-            star.classList.add('active');
-        } else {
-            star.textContent = '☆';
-            star.classList.remove('active');
-        }
-    });
-}
-
-// Load reviews from localStorage
-function loadReviews() {
-    let reviews = JSON.parse(localStorage.getItem('coffeeShopReviews')) || defaultReviews;
-    return reviews;
-}
-
-// Save reviews to localStorage
-function saveReviews(reviews) {
-    localStorage.setItem('coffeeShopReviews', JSON.stringify(reviews));
-}
-
-// Display reviews in the container
-function displayReviews() {
-    const reviewsContainer = document.getElementById('reviewsContainer');
-    const reviews = loadReviews();
-    
-    reviewsContainer.innerHTML = '';
-    
-    reviews.forEach((review, index) => {
-        const reviewCard = document.createElement('div');
-        reviewCard.className = 'review-card';
-        reviewCard.style = 'background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;';
-        
-        // Create stars based on rating
-        let starsHtml = '';
-        for (let i = 0; i < 5; i++) {
-            starsHtml += i < review.rating ? '★' : '☆';
+    <style>
+        /* Enhanced Testimonials Section */
+        .testimonials {
+            padding: 5rem 0;
+            background: #F9F5EB;
         }
         
-        reviewCard.innerHTML = `
-            <div class="stars" style="color: #D7A86E; font-size: 1.2rem; margin-bottom: 1rem;">${starsHtml}</div>
-            <p style="font-style: italic; margin-bottom: 1.5rem;">"${review.text}"</p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; color: #5D4037;">- ${review.name}</span>
-                <span style="font-size: 0.8rem; color: #8B6B61;">${review.date}</span>
+        .testimonial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-form h3 {
+            color: #5D4037;
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #5D4037;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .star-rating {
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .star {
+            color: #ddd;
+            transition: color 0.2s;
+            margin-right: 5px;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: #D7A86E;
+        }
+        
+        .reviews-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .review-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .review-stars {
+            color: #D7A86E;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .review-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .review-author {
+            font-weight: bold;
+            color: #5D4037;
+        }
+        
+        .review-date {
+            font-size: 0.8rem;
+            color: #8B6B61;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #5D4037;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Your existing header and other sections -->
+
+    <!-- ===== TESTIMONIALS SECTION ===== -->
+    <section class="testimonials">
+        <div class="testimonial-container">
+            <div class="section-title">
+                <h2>What Our Customers Say</h2>
+                <p>Share your experience with our coffee</p>
             </div>
-            <button class="delete-btn" onclick="deleteReview(${index})">×</button>
-        `;
-        
-        reviewsContainer.appendChild(reviewCard);
-    });
-}
+            
+            <div class="testimonial-grid">
+                <!-- Add Testimonial Form -->
+                <div class="testimonial-form">
+                    <h3>Share Your Experience</h3>
+                    <form id="testimonialForm">
+                        <div class="form-group">
+                            <label for="reviewerName">Your Name</label>
+                            <input type="text" id="reviewerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Your Review</label>
+                            <textarea id="reviewText" required rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <div class="star-rating">
+                                <span class="star" data-value="1">☆</span>
+                                <span class="star" data-value="2">☆</span>
+                                <span class="star" data-value="3">☆</span>
+                                <span class="star" data-value="4">☆</span>
+                                <span class="star" data-value="5">☆</span>
+                            </div>
+                            <input type="hidden" id="ratingValue" value="0">
+                        </div>
+                        <button type="submit" class="btn">Submit Review</button>
+                    </form>
+                </div>
+                
+                <!-- Reviews Container -->
+                <div class="reviews-container" id="reviewsContainer">
+                    <!-- Reviews will be loaded dynamically from localStorage -->
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Add a new review
-function addReview(name, text, rating) {
-    const reviews = loadReviews();
-    const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-    
-    reviews.unshift({
-        name,
-        text,
-        rating,
-        date: currentDate
-    });
-    
-    saveReviews(reviews);
-    displayReviews();
-}
+    <!-- Your existing footer and other sections -->
 
-// Delete a review
-function deleteReview(index) {
-    const reviews = loadReviews();
-    reviews.splice(index, 1);
-    saveReviews(reviews);
-    displayReviews();
-    showNotification('Review deleted successfully');
-}
+    <script>
+        // Enhanced testimonials functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with default reviews if none exist
+            const defaultReviews = [
+                {
+                    name: "Sarah M.",
+                    text: "Best coffee in town! The Ethiopian Yirgacheffe is absolutely amazing. I start every day with a cup.",
+                    rating: 5,
+                    date: "2023-10-15"
+                },
+                {
+                    name: "James K.",
+                    text: "The atmosphere is perfect for working, and the Colombian Supremo keeps me going through my meetings.",
+                    rating: 5,
+                    date: "2023-10-10"
+                },
+                {
+                    name: "Maria L.",
+                    text: "I've tried coffee from all over the city, but Redo's coffee is the best. Their brewing guides helped me make perfect coffee at home!",
+                    rating: 5,
+                    date: "2023-10-05"
+                }
+            ];
 
-// Show notification
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
-    
-    // Remove after delay
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
+            // Initialize star rating
+            const stars = document.querySelectorAll('.star');
+            let currentRating = 0;
+            
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = parseInt(star.getAttribute('data-value'));
+                    setRating(rating);
+                });
+            });
 
-// Testimonial form submission
-document.getElementById('testimonialForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('reviewerName').value;
-    const text = document.getElementById('reviewText').value;
-    const rating = currentRating;
-    
-    if (rating === 0) {
-        showNotification('Please select a rating');
-        return;
-    }
-    
-    addReview(name, text, rating);
-    
-    // Reset form
-    document.getElementById('testimonialForm').reset();
-    setRating(0);
-    
-    showNotification('Thank you for your review!');
-});
+            function setRating(rating) {
+                currentRating = rating;
+                document.getElementById('ratingValue').value = rating;
+                
+                // Update star display
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.textContent = '★';
+                        star.classList.add('active');
+                    } else {
+                        star.textContent = '☆';
+                        star.classList.remove('active');
+                    }
+                });
+            }
 
-// Initialize star ratings
-document.querySelectorAll('.star').forEach((star, index) => {
-    star.addEventListener('click', () => setRating(index + 1));
-});
+            // Load reviews from localStorage
+            function loadReviews() {
+                let reviews = JSON.parse(localStorage.getItem('coffeeShopReviews')) || defaultReviews;
+                return reviews;
+            }
 
-// Load reviews when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    displayReviews();
-});
-</script>
+            // Save reviews to localStorage
+            function saveReviews(reviews) {
+                localStorage.setItem('coffeeShopReviews', JSON.stringify(reviews));
+            }
+
+            // Display reviews in the container
+            function displayReviews() {
+                const reviewsContainer = document.getElementById('reviewsContainer');
+                const reviews = loadReviews();
+                
+                reviewsContainer.innerHTML = '';
+                
+                reviews.forEach((review, index) => {
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    
+                    // Create stars based on rating
+                    let starsHtml = '';
+                    for (let i = 0; i < 5; i++) {
+                        starsHtml += i < review.rating ? '★' : '☆';
+                    }
+                    
+                    reviewCard.innerHTML = `
+                        <div class="review-stars">${starsHtml}</div>
+                        <p class="review-text">"${review.text}"</p>
+                        <div class="review-meta">
+                            <span class="review-author">- ${review.name}</span>
+                            <span class="review-date">${review.date}</span>
+                        </div>
+                        <button class="delete-btn" onclick="deleteReview(${index})">×</button>
+                    `;
+                    
+                    reviewsContainer.appendChild(reviewCard);
+                });
+            }
+
+            // Add a new review
+            function addReview(name, text, rating) {
+                const reviews = loadReviews();
+                const currentDate = new Date().toISOString().split('T')[0];
+                
+                reviews.unshift({
+                    name,
+                    text,
+                    rating,
+                    date: currentDate
+                });
+                
+                saveReviews(reviews);
+                displayReviews();
+            }
+
+            // Delete a review
+            function deleteReview(index) {
+                const reviews = loadReviews();
+                reviews.splice(index, 1);
+                saveReviews(reviews);
+                displayReviews();
+                showNotification('Review deleted successfully');
+            }
+
+            // Show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Animate in
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                
+                // Remove after delay
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
+            // Testimonial form submission
+            document.getElementById('testimonialForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reviewerName').value;
+                const text = document.getElementById('reviewText').value;
+                const rating = currentRating;
+                
+                if (rating === 0) {
+                    showNotification('Please select a rating');
+                    return;
+                }
+                
+                addReview(name, text, rating);
+                
+                // Reset form
+                document.getElementById('testimonialForm').reset();
+                setRating(0);
+                
+                showNotification('Thank you for your review!');
+            });
+
+            // Load reviews when page loads
+            displayReviews();
+        });
+    </script>
 
 <!-- ===== SUBSCRIPTION SECTION ===== -->
     <!-- Newsletter signup and subscription options -->
